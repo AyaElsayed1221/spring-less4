@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation=" http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+<!-- This tag allow u to use annotation in the configuration with the xml configuration-->
+    <context:annotation-config />
+
+    <bean id ="humanHeart" class="org.example.Heart"></bean>
+    <bean id ="octopusHeart" class="org.example.Heart"></bean>
+
+    <!-- Spring can autowire two beans with each other without using the property tag and the ref attribute in it to refer to the another bean  -->
+    <bean id ="human1" class="org.example.Human">
+        <property name="humanHeart" ref="humanHeart"/>
+    </bean>
+
+    <!-- Instead we use the autowire attribute inside the bean tag-->
+    <!--    There are three types of utowiring: -->
+
+    <!--    1. By Type: which is compare the type of the variable inside the class with the types of the beans to see if any bean has the same type as the variable.
+                If there are multiple beans has the same type it will throw an exception : expected single matching bean but found 2: humanHeart,octopusHeart-->
+<!--    <bean id ="human2" class="org.example.Human" autowire="byType"/>-->
+
+    <!--    2. By name: which is compare the name of the variable in the class and the ids of the beans, to see if there is any match to inject it in our dependency -->
+    <bean id ="human3" class="org.example.Human" autowire="byName"/>
+
+    <!--  3. it autowire between them using the argument constructor: at first it make comparison using ByType, and if it fails it will make compare by name-->
+<!--    <bean id ="human4" class="org.example.Human" autowire="constructor"/>-->
+    <bean id ="human4" class="org.example.Human" />
+
+    <!-- Note: We can use annotation rather than the xml
+        @Autowire
+        @Qualifier
+    -->
+
+<!--    Recommendation: use autowire when u have small number of dependencies(1-10) but if u have large number of dependencies(in 100s) it is prefer to use the manual config to can debug things-->
+
+</beans>
